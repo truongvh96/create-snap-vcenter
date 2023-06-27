@@ -1,0 +1,10 @@
+- name: Create Snapshot
+  vmware_vm_snapshot:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: False
+    datacenter: "{{ datacenter_name }}"
+    name: "{{ vm_name }}"
+    snapshot_name: "{{ snapshot_name }}"
+    state: present
