@@ -1,10 +1,22 @@
+- name: Gather VM information from vCenter
+  community.vmware.vmware_vm_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: False
+  register: vm_info
+
 - name: Create Snapshot
-  vmware_vm_snapshot:
+  community.vmware.vmware_guest_snapshot:
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
     password: "{{ vcenter_password }}"
     validate_certs: False
     datacenter: "{{ datacenter_name }}"
-    name: "{{ vm_name }}"
+    name: "{{ item.vm_name }}"
     snapshot_name: "{{ snapshot_name }}"
     state: present
+  loop: "{{ vm_info.virtual_machines }}"
+  loop_control:
+    loop_var: item
+  when: item.resource_pool_name == resource_pool_name
