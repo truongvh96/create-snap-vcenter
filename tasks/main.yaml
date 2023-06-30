@@ -4,7 +4,7 @@
     username: '{{ vcenter_username }}'
     password: '{{ vcenter_password }}'
     validate_certs: False
-    folder: "/{{ datacenter_name }}/vm/Sys-intern/"
+    folder: "{{ folder }}"
   delegate_to: localhost
   register: vm_info
 
@@ -19,7 +19,7 @@
     validate_certs: False
     datacenter: "{{ datacenter_name }}"
     name: "{{ item.guest_name }}"
-    folder: "/{{ datacenter_name }}/vm/Sys-intern/"
+    folder: "{{ folder }}"
     snapshot_name: "{{ snapshot_name }}"
     state: present
   loop: "{{ vm_info.virtual_machines }}"
